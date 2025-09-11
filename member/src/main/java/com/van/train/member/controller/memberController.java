@@ -1,5 +1,7 @@
 package com.van.train.member.controller;
 
+import com.van.train.common.resp.CommonResp;
+import com.van.train.member.ref.MembersRegiserRec;
 import com.van.train.member.service.memberService;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +21,11 @@ public class memberController {
 
     //注册接口
     @PostMapping("/register")
-    public long Register(String mobile) {
-
-        return memberService.Register(mobile);
+    public CommonResp<Long> Register(MembersRegiserRec rec) {
+        CommonResp<Long> resp = new CommonResp<>();
+        long id = memberService.Register(rec);
+        resp.setContent( id);
+        return resp;
 
     }
 }
