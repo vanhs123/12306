@@ -1,13 +1,13 @@
 package com.van.train.member.controller;
 
 import com.van.train.common.resp.CommonResp;
+import com.van.train.member.Resp.MemberLoginResp;
+import com.van.train.member.ref.MemberLoginReq;
 import com.van.train.member.ref.MemberSendCodeReq;
 import com.van.train.member.ref.MembersRegiserRec;
 import com.van.train.member.service.memberService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class memberController {
@@ -32,12 +32,21 @@ public class memberController {
     }
 
         //注册接口
-        @PostMapping("/send-code")
+         @PostMapping("/send-code")
         public CommonResp<Long> sendCode(MemberSendCodeReq req) {
             memberService.sendCode(req);
 
             return new CommonResp<>();
+    }
 
+    //登录接口
+    @PostMapping("/login")
+    public CommonResp<MemberLoginResp> login(@RequestBody MemberLoginReq req) {
+        MemberLoginResp resp = memberService.Login(req);
+        return new CommonResp<>(resp);
     }
-    }
+
+
+
+}
 

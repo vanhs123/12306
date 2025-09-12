@@ -1,9 +1,15 @@
 package com.van.train.member.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.van.train.common.exception.BusinessException;
+import com.van.train.common.exception.BusinessExceptionEnum;
+import com.van.train.member.Resp.MemberLoginResp;
 import com.van.train.member.domain.member;
 import com.van.train.member.domain.memberExample;
 import com.van.train.member.mapper.memberMapper;
+import com.van.train.member.ref.MemberLoginReq;
 import com.van.train.member.ref.MemberSendCodeReq;
 import com.van.train.member.ref.MembersRegiserRec;
 import jakarta.annotation.Resource;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+
 
 @Service
 @Repository("/member")
@@ -29,17 +36,17 @@ public class memberService {
     private static final Logger LOG = LoggerFactory.getLogger(memberService.class);
 
     //注册手机号
-    public long Register(MembersRegiserRec rec) {
-        memberExample example = new memberExample();
-        example.createCriteria().andMobileEqualTo(rec.getMobile());
-        List<member> list = memberMapper.selectByExample(example);
-
-        if(CollUtil.isNotEmpty(list)) {
+    public long Register(MembersRegiserRec req) {
+        String mobile = req.getMobile();
+        //调用代码生成器模块里api生成查询条件
+        member memberDB= selectByMobile(mobile);
+        //手机号为空就注册
+        if(ObjectUtil.isEmpty(memberDB)) {
             throw new RuntimeException("手机号已注册");
         }
 
         member member = new member();
-        member.setMobile(rec.getMobile());
+        member.setMobile(req.getMobile());
         member.setId(System.currentTimeMillis());
 
 
@@ -51,11 +58,11 @@ public class memberService {
     public void sendCode(MemberSendCodeReq req) {
 
         //调用代码生成器模块里api生成查询条件
-        memberExample example = new memberExample();
-        example.createCriteria().andMobileEqualTo(req.getMobile());
-        List<member> list = memberMapper.selectByExample(example);
+        String mobile = req.getMobile();
+        //调用代码生成器模块里api生成查询条件
+        member memberDB= selectByMobile(mobile);
         //手机号为空就注册
-        if(CollUtil.isEmpty(list)) {
+        if(ObjectUtil.isEmpty(memberDB)) {
             LOG.info("手机号不存在，插入一条记录");
             member member = new member();
             member.setMobile(req.getMobile());
@@ -76,6 +83,47 @@ public class memberService {
         LOG.info("对接短信通道");
 
 
+
+    }
+
+    /*
+    登录部分
+     */
+    public MemberLoginResp Login(MemberLoginReq req) {
+
+        String code = req.getCode();
+
+        String mobile = req.getMobile();
+        //调用代码生成器模块里api生成查询条件
+        member memberDB= selectByMobile(mobile);
+        //手机号不存在就抛异常
+        if(ObjectUtil.isEmpty(memberDB)) {
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_NOT_EXIST);
+        }
+        //校验短信验证码
+        if(!"8888".equals(code)) {
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_CODE_ERROR);
+        }
+
+        //封装返回参数
+        MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        return memberLoginResp;
+
+
+    }
+
+
+    private member selectByMobile(String req) {
+        memberExample example = new memberExample();
+        example.createCriteria().andMobileEqualTo(req);
+        List<member> list = memberMapper.selectByExample(example);
+        LOG.info("查询手机号结果: {}", list);
+        //手机号为空就注册
+        if(CollUtil.isEmpty(list)) {
+            return null;
+        }else {
+            return list.get(0);
+        }
 
     }
 
