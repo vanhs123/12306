@@ -1,6 +1,7 @@
 package com.van.train.member.controller;
 
 import com.van.train.common.resp.CommonResp;
+import com.van.train.member.ref.MemberSendCodeReq;
 import com.van.train.member.ref.MembersRegiserRec;
 import com.van.train.member.service.memberService;
 import jakarta.annotation.Resource;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class memberController {
+
+
 
     @Resource
     private memberService memberService;
@@ -26,6 +29,15 @@ public class memberController {
         long id = memberService.Register(rec);
         resp.setContent( id);
         return resp;
+    }
+
+        //注册接口
+        @PostMapping("/send-code")
+        public CommonResp<Long> sendCode(MemberSendCodeReq req) {
+            memberService.sendCode(req);
+
+            return new CommonResp<>();
 
     }
-}
+    }
+
