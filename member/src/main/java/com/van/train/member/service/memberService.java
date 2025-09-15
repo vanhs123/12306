@@ -3,6 +3,8 @@ package com.van.train.member.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.jwt.JWTUtil;
+import com.van.train.common.Util.SnowUtil;
 import com.van.train.common.exception.BusinessException;
 import com.van.train.common.exception.BusinessExceptionEnum;
 import com.van.train.member.Resp.MemberLoginResp;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -66,7 +69,7 @@ public class memberService {
             LOG.info("手机号不存在，插入一条记录");
             member member = new member();
             member.setMobile(req.getMobile());
-            member.setId(System.currentTimeMillis());
+            member.setId(SnowUtil.getSnowflakeNextId());
             memberMapper.insert(member);
         }else {
             LOG.info("手机号存在，不插入记录");
@@ -107,6 +110,14 @@ public class memberService {
 
         //封装返回参数
         MemberLoginResp memberLoginResp = BeanUtil.copyProperties(memberDB, MemberLoginResp.class);
+        /*
+        * 使用hutool工具包生成jwt
+        * */
+        Map<String, Object> map = BeanUtil.beanToMap(memberLoginResp);
+        String key = "vanhs12306";
+        String token = JWTUtil.createToken(map, key.getBytes());
+        memberLoginResp.setToken(token);
+
         return memberLoginResp;
 
 

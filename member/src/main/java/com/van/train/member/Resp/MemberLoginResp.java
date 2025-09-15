@@ -5,20 +5,29 @@ import jakarta.validation.constraints.Pattern;
 
 public class MemberLoginResp {
 
+    @NotBlank(message = "【手机号】不能为空")
+    @Pattern(regexp = "^1\\d{10}$", message = "手机号码格式错误")
+    private String mobile;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MemberLoginReq{");
+        final StringBuilder sb = new StringBuilder("MemberLoginResp{");
         sb.append("mobile='").append(mobile).append('\'');
+        sb.append(", token='").append(token).append('\'');
         sb.append(", code='").append(code).append('\'');
         sb.append('}');
         return sb.toString();
     }
 
-    @NotBlank(message = "【手机号】不能为空")
-    @Pattern(regexp = "^1\\d{10}$", message = "手机号码格式错误")
-    private String mobile;
-
-
+    private String token;
 
     public String getCode() {
         return code;

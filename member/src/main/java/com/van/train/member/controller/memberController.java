@@ -7,6 +7,7 @@ import com.van.train.member.ref.MemberSendCodeReq;
 import com.van.train.member.ref.MembersRegiserRec;
 import com.van.train.member.service.memberService;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +25,7 @@ public class memberController {
 
     //注册接口
     @PostMapping("/register")
-    public CommonResp<Long> Register(MembersRegiserRec rec) {
+    public CommonResp<Long> Register(@Valid MembersRegiserRec rec) {
         CommonResp<Long> resp = new CommonResp<>();
         long id = memberService.Register(rec);
         resp.setContent( id);
