@@ -3,7 +3,7 @@ package com.van.train.member.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.jwt.JWTUtil;
+import com.van.train.common.Util.JwtUtil;
 import com.van.train.common.Util.SnowUtil;
 import com.van.train.common.exception.BusinessException;
 import com.van.train.common.exception.BusinessExceptionEnum;
@@ -11,9 +11,9 @@ import com.van.train.member.Resp.MemberLoginResp;
 import com.van.train.member.domain.member;
 import com.van.train.member.domain.memberExample;
 import com.van.train.member.mapper.memberMapper;
-import com.van.train.member.ref.MemberLoginReq;
-import com.van.train.member.ref.MemberSendCodeReq;
-import com.van.train.member.ref.MembersRegiserRec;
+import com.van.train.member.Req.MemberLoginReq;
+import com.van.train.member.Req.MemberSendCodeReq;
+import com.van.train.member.Req.MembersRegiserRec;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +115,7 @@ public class memberService {
         * */
         Map<String, Object> map = BeanUtil.beanToMap(memberLoginResp);
         String key = "vanhs12306";
-        String token = JWTUtil.createToken(map, key.getBytes());
+        String token = JwtUtil.createToken(memberLoginResp.getId(), memberLoginResp.getMobile());
         memberLoginResp.setToken(token);
 
         return memberLoginResp;

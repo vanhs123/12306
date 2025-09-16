@@ -1,4 +1,4 @@
-package com.van.train.member.ref;
+package com.van.train.member.Req;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

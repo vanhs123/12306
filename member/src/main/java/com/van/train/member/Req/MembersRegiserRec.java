@@ -1,4 +1,4 @@
-package com.van.train.member.ref;
+package com.van.train.member.Req;
 
 public class MembersRegiserRec {
     private String mobile;

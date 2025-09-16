@@ -2,9 +2,9 @@ package com.van.train.member.controller;
 
 import com.van.train.common.resp.CommonResp;
 import com.van.train.member.Resp.MemberLoginResp;
-import com.van.train.member.ref.MemberLoginReq;
-import com.van.train.member.ref.MemberSendCodeReq;
-import com.van.train.member.ref.MembersRegiserRec;
+import com.van.train.member.Req.MemberLoginReq;
+import com.van.train.member.Req.MemberSendCodeReq;
+import com.van.train.member.Req.MembersRegiserRec;
 import com.van.train.member.service.memberService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;

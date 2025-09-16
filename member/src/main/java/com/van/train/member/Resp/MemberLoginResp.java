@@ -17,15 +17,26 @@ public class MemberLoginResp {
         this.token = token;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("MemberLoginResp{");
         sb.append("mobile='").append(mobile).append('\'');
+        sb.append(", id=").append(id);
         sb.append(", token='").append(token).append('\'');
         sb.append(", code='").append(code).append('\'');
         sb.append('}');
         return sb.toString();
     }
+
+    private Long id;
 
     private String token;
 
