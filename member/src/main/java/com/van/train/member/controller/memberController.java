@@ -34,7 +34,7 @@ public class memberController {
 
         //注册接口
          @PostMapping("/send-code")
-        public CommonResp<Long> sendCode(MemberSendCodeReq req) {
+        public CommonResp<Long> sendCode(@Valid@RequestBody MemberSendCodeReq req) {
             memberService.sendCode(req);
 
             return new CommonResp<>();
