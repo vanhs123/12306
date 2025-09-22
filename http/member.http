@@ -25,3 +25,5 @@ Content-Type: application/json
   "code": "8888"
 }
 ###
+GET http://localhost:8000/member/hello
+Accept: application/json
