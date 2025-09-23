@@ -1,7 +1,7 @@
 package com.van.train.member.mapper;
 
-import com.van.train.member.domain.member;
-import com.van.train.member.domain.memberExample;
+import com.van.train.member.Domain.member;
+import com.van.train.member.Domain.memberExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

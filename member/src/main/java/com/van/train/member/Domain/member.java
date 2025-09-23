@@ -1,4 +1,4 @@
-package com.van.train.member.domain;
+package com.van.train.member.Domain;
 
 public class member {
     private Long id;

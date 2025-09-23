@@ -7,8 +7,10 @@ import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequestMapping("/passenger")
 @RestController
 public class passengerController {
 
@@ -20,9 +22,9 @@ public class passengerController {
 
     //注册接口
     @PostMapping("/save")
-    public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq rec) {
+    public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq req) {
         CommonResp<Object> resp = new CommonResp<>();
-        passengerService.save(rec);
+        passengerService.save(req);
         return resp;
     }
 

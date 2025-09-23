@@ -1,4 +1,4 @@
-package com.van.train.member.domain;
+package com.van.train.member.Domain;
 
 import java.util.ArrayList;
 import java.util.List;
