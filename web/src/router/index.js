@@ -9,8 +9,21 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('../views/mian.vue')
-  },
+    component: () => import('../views/main.vue'),
+    meta: {
+      loginRequire: true
+    }, //子路由
+    children: [{
+      path: 'welcome',
+      component: () => import('../views/main/welcome.vue'),
+    }, {
+      path: 'passenger',
+      component: () => import('../views/main/passenger.vue'),
+}]
+  },{
+    path: '',
+    redirect: '/welcome'
+  }
 
 ]
 
