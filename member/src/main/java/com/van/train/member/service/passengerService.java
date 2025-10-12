@@ -44,7 +44,11 @@ public class passengerService {
 
     }
 
-
+    /**
+     * 分页查询
+     * @param passengerQueryReq
+     * @return
+     */
     public PageResp<PassengerQueryResp> queryList(@Valid PassengerSaveReq passengerQueryReq) {
 
         //首先我们应该去根据条件筛选
