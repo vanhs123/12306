@@ -2,15 +2,14 @@ package com.van.train.member.controller;
 
 import com.van.train.common.Context.LoginMemberContext;
 import com.van.train.common.resp.CommonResp;
-import com.van.train.member.Req.PassengerQueryReq;
+import com.van.train.common.resp.PageResp;
 import com.van.train.member.Req.PassengerSaveReq;
+import com.van.train.member.Resp.PassengerQueryResp;
 import com.van.train.member.service.passengerService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RequestMapping("/passenger")
@@ -34,12 +33,13 @@ public class passengerController {
 
     //查询接口
     @GetMapping("/query-list")
-    public CommonResp<List<PassengerQueryReq>> queryList(@Valid  PassengerSaveReq req) {
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid  PassengerSaveReq req) {
         //从线程池里获取memberid
         req.setMemberId(LoginMemberContext.getId());
         Long id = LoginMemberContext.getId();
         log.info("LoginMemberContext.getId() = {}",id);
-        List<PassengerQueryReq> list = passengerService.queryList(req);
+        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
+
         return new CommonResp<>(list);
 
     }
