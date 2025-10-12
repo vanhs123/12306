@@ -3,8 +3,8 @@ Content-Type: application/json
 token: {{token}}
 
 {
-  "name": "test",
-  "idCard": "123321",
+  "name": "test5",
+  "idCard": "123821",
   "type": "1"
 }
 
@@ -42,10 +42,10 @@ Content-Type: application/json
 token: {{token}}
 
 {
-  "id": 1628627322414436352,
-  "memberId": 1624581077500825600,
-  "name": "test1",
-  "idCard": "123321",
+  "id": 1977218251431743488,
+  "memberId": 1970076568109846528,
+  "name": "test2",
+  "idCard": "123821",
   "type": "1"
 }
 

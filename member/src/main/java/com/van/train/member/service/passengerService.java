@@ -6,10 +6,12 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.van.train.common.Context.LoginMemberContext;
 import com.van.train.common.Util.SnowUtil;
 import com.van.train.common.resp.PageResp;
 import com.van.train.member.Domain.Passenger;
 import com.van.train.member.Domain.PassengerExample;
+import com.van.train.member.Req.PassengerQueryReq;
 import com.van.train.member.Req.PassengerSaveReq;
 import com.van.train.member.Resp.PassengerQueryResp;
 import com.van.train.member.mapper.PassengerMapper;
@@ -31,16 +33,30 @@ public class passengerService {
         this.passengerMapper = passengerMapper;
     }
 
+
+    /**
+     * 新增乘车人接口
+     * @param passengerSaveReq
+     */
     public void save(PassengerSaveReq passengerSaveReq) {
 
         DateTime now = DateTime.now();
-
         //将前端传来的请求参数中的存储在数据库里
-        Passenger passenger= BeanUtil.copyProperties(passengerSaveReq, Passenger.class);
-        passenger.setId(SnowUtil.getSnowflakeNextId());
-        passenger.setCreateTime(now);
-        passenger.setUpdateTime(now);
-        passengerMapper.insert(passenger);
+        Passenger passenger = BeanUtil.copyProperties(passengerSaveReq, Passenger.class);
+
+        //ID为空就代表是新增乘客
+        if(ObjectUtil.isEmpty(passengerSaveReq.getId())) {
+            passenger.setMemberId(LoginMemberContext.getId());
+            passenger.setId(SnowUtil.getSnowflakeNextId());
+            passenger.setCreateTime(now);
+            passenger.setUpdateTime(now);
+            passengerMapper.insert(passenger);
+            //不为空，就代表修改乘客
+        }else{
+            passenger.setUpdateTime(now);
+            passengerMapper.updateByPrimaryKeySelective(passenger);
+        }
+
 
     }
 
@@ -49,7 +65,7 @@ public class passengerService {
      * @param passengerQueryReq
      * @return
      */
-    public PageResp<PassengerQueryResp> queryList(@Valid PassengerSaveReq passengerQueryReq) {
+    public PageResp<PassengerQueryResp> queryList(@Valid PassengerQueryReq passengerQueryReq) {
 
         //首先我们应该去根据条件筛选
         PassengerExample passengerExample = new PassengerExample();
@@ -71,8 +87,6 @@ public class passengerService {
         PageInfo<Passenger> pageInfo = new PageInfo<>(passengerList);
         LOG.info("总行数：{}", pageInfo.getTotal());
         LOG.info("总页数：{}", pageInfo.getPages());
-
-
 
         //将查询到的结果封装到返回参数里
         List<PassengerQueryResp> list = BeanUtil.copyToList(passengerList, PassengerQueryResp.class);

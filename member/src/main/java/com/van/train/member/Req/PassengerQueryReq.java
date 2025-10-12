@@ -3,9 +3,11 @@ package com.van.train.member.Req;
 //import com.van.train.common.Req.PageReq;
 //extends PageReq
 
+import com.van.train.common.Req.PageReq;
+
 import java.time.LocalDateTime;
 
-public class PassengerQueryReq  {
+public class PassengerQueryReq extends PageReq {
 
     private Long id;
     private Long memberId;

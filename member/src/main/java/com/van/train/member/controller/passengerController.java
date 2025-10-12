@@ -3,6 +3,7 @@ package com.van.train.member.controller;
 import com.van.train.common.Context.LoginMemberContext;
 import com.van.train.common.resp.CommonResp;
 import com.van.train.common.resp.PageResp;
+import com.van.train.member.Req.PassengerQueryReq;
 import com.van.train.member.Req.PassengerSaveReq;
 import com.van.train.member.Resp.PassengerQueryResp;
 import com.van.train.member.service.passengerService;
@@ -33,7 +34,7 @@ public class passengerController {
 
     //查询接口
     @GetMapping("/query-list")
-    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid  PassengerSaveReq req) {
+    public CommonResp<PageResp<PassengerQueryResp>> queryList(@Valid PassengerQueryReq req) {
         //从线程池里获取memberid
         req.setMemberId(LoginMemberContext.getId());
         Long id = LoginMemberContext.getId();
